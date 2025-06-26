@@ -5,7 +5,8 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setEmail } from "../redux/features/user/userSlice";
 
 interface UserFormData {
   email: string;
@@ -20,54 +21,57 @@ const LoginForm = () => {
     reset,
   } = useForm<UserFormData>();
   const dispatch = useAppDispatch();
-  const [login, { error }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const navigate = useNavigate();
 
   const onSubmit = async (data: UserFormData) => {
     const userData = data;
-    console.log(userData);
     try {
       const res: any = await login(userData);
-      console.log(res)
 
-      const user = jwtDecode(res.data?.token);
-      console.log(user)
-      dispatch(setUser({ user: user, token: res.data?.token }));
-      navigate("/");
       if (res.data?.success) {
-        console.log("success");
         toast.success(res?.message || "User Login successfully!");
+        const user = jwtDecode(res.data?.token);
+        dispatch(setUser({ user: user, token: res.data?.token }));
+        dispatch(setEmail(res?.data?.email));
+
+        navigate("/");
+
         reset();
       } else {
-        showToast(res?.message || "Registration failed");
+        showToast(res?.message || "Login failed, Please enter correct credentials.");
       }
     } catch (error: any) {
-      console.log(error.data);
       toast.error(error?.data?.message || "Something went wrong");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
-      <h2 className="text-xl font-semibold mb-4">Login User</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="max-w-md mx-auto p-8 bg-white shadow-xl rounded-xl my-20 border border-gray-200 ">
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        🔐 Login to Your Account
+      </h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email */}
         <div>
-          <label className="block font-medium">Email</label>
+          <label className="block text-gray-700 font-medium mb-1">Email</label>
           <input
             type="email"
             {...register("email", { required: "Email is required" })}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
         {/* Password */}
         <div>
-          <label className="block font-medium">Password</label>
+          <label className="block text-gray-700 font-medium mb-1">
+            Password
+          </label>
           <input
             type="password"
             {...register("password", {
@@ -77,21 +81,33 @@ const LoginForm = () => {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
         >
           Login
         </button>
       </form>
+
+      <p className="text-center mt-8 text-sm text-gray-600">
+        Haven't registered yet?
+        <Link
+          to="/register"
+          className="text-blue-600 font-semibold hover:underline ml-1"
+        >
+          Register Now
+        </Link>
+      </p>
     </div>
   );
 };

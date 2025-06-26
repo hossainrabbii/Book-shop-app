@@ -1,7 +1,12 @@
 import ABooks from "../components/ABooks";
 
 const Books = () => {
-  return <ABooks />;
+  return (
+    <div className="container mx-auto">
+      <title>All books - PageTurner</title>
+      <ABooks />
+    </div>
+  );
 };
 
 export default Books;

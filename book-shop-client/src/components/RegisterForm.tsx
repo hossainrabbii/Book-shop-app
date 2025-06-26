@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { showToast } from "./Toast";
 import { useCreateUserMutation } from "../redux/features/user/userApi";
+import { Link, useNavigate } from "react-router-dom";
 
 interface UserFormData {
   name: string;
@@ -17,56 +18,63 @@ const RegisterForm = () => {
     reset,
   } = useForm<UserFormData>();
   const [createUser] = useCreateUserMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: UserFormData) => {
     const userData = data;
-    console.log(userData);
     try {
       const res = await createUser(userData).unwrap();
-      console.log(res);
+
       if (res.success) {
         showToast("User registered successfully!");
         reset();
+        navigate("/login");
       } else {
         showToast("Registration failed");
       }
     } catch (error: any) {
-      console.log(error.data);
       toast.error(error?.data?.message || "Something went wrong");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
-      <h2 className="text-xl font-semibold mb-4">Register User</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="max-w-md mx-auto p-8 bg-white shadow-xl rounded-xl my-20 border border-gray-200">
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        🚀 Create Your Account
+      </h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Name */}
         <div>
-          <label className="block font-medium">Name</label>
+          <label className="block text-gray-700 font-medium mb-1">Name</label>
           <input
             type="text"
             {...register("name", { required: "Name is required" })}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
 
         {/* Email */}
         <div>
-          <label className="block font-medium">Email</label>
+          <label className="block text-gray-700 font-medium mb-1">Email</label>
           <input
             type="email"
             {...register("email", { required: "Email is required" })}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
         {/* Password */}
         <div>
-          <label className="block font-medium">Password</label>
+          <label className="block text-gray-700 font-medium mb-1">
+            Password
+          </label>
           <input
             type="password"
             {...register("password", {
@@ -76,21 +84,33 @@ const RegisterForm = () => {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
         >
           Register
         </button>
       </form>
+
+      <p className="text-center mt-8 text-sm text-gray-600">
+        Already registered?{" "}
+        <Link
+          to="/login"
+          className="text-blue-600 font-semibold hover:underline"
+        >
+          Login Now
+        </Link>
+      </p>
     </div>
   );
 };

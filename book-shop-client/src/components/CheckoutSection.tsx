@@ -11,6 +11,8 @@ type CheckoutProps = {
   selectedQty: number;
   title: string;
   author: string;
+  imageId: string;
+  bookId: string;
 };
 
 const bangladeshDistricts = [
@@ -85,22 +87,25 @@ export default function CheckoutSection({
   selectedQty,
   title,
   author,
+  imageId,
+  bookId,
 }: CheckoutProps) {
   const onlineFee = 60;
   const subtotal = bookPrice * selectedQty;
   const total = subtotal + onlineFee;
   const navigate = useNavigate();
   const user = useAppSelector(selectCurrentUser);
-  // console.log(userId);
-
+  console.log(bookId);
+  const userId = user?.id;
   const [shippingInfo, setShippingInfo] = useState({
     email: user?.email,
     name: "",
-    userId: user?.id,
+    userId,
     phone: "",
     city: "",
     address: "",
-    imageId: "Image",
+    imageId: imageId,
+    bookId,
     title,
     author,
     unitPrice: bookPrice,
@@ -110,7 +115,7 @@ export default function CheckoutSection({
     shipped: false,
     delivered: false,
   });
-
+  console.log(shippingInfo);
   useEffect(() => {
     setShippingInfo((prev) => ({
       ...prev,
@@ -118,7 +123,6 @@ export default function CheckoutSection({
       totalPrice: selectedQty * bookPrice + onlineFee,
     }));
   }, [selectedQty]);
-  console.log(shippingInfo);
   const [addOrder] = useAddorderMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,21 +139,13 @@ export default function CheckoutSection({
     if (!user) {
       navigate("/login");
     } else {
-      console.log("Placing order with: ", shippingInfo);
-
       try {
         const res = await addOrder(orderData).unwrap();
 
         if (res?.data.payment.checkout_url) {
-          window.location.href =res?.data.payment.checkout_url; 
+          window.location.href = res?.data.payment.checkout_url;
         }
-        // else {
-        //   toast.success(res?.message || "Order placed successfully!");
-        // }
-
-        // reset();
       } catch (error) {
-        console.log(error);
         toast.error("Failed to place order");
       }
     }
@@ -157,7 +153,6 @@ export default function CheckoutSection({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-
       <div className="bg-white shadow-md p-4 rounded-md border border-[#DDDDDD]">
         <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
         <div className="mb-4">
@@ -225,19 +220,19 @@ export default function CheckoutSection({
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>{subtotal} Tk.</span>
+            <span>{subtotal} ৳</span>
           </div>
           <div className="flex justify-between">
             <span>Online Fee</span>
-            <span>{onlineFee} Tk.</span>
+            <span>{onlineFee} ৳</span>
           </div>
           <div className="flex justify-between font-medium">
             <span>Total</span>
-            <span>{total} Tk.</span>
+            <span>{total} ৳</span>
           </div>
           <div className="flex justify-between font-bold text-lg  pt-2">
             <span>Payable Total</span>
-            <span>{total} Tk.</span>
+            <span>{total} ৳</span>
           </div>
         </div>
 

@@ -13,26 +13,26 @@ body {
     @apply shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] bg-white;
   }
 }
-.slick-slide {
+#banner .slick-slide {
   overflow: hidden;
   border-radius: 5px;
 }
-.slick-slide img {
+#banner .slick-slide img {
   width: 100%;
   height: 55vh;
   object-fit: cover;
   border: 2px solid #8e8e8e;
   border-radius: 5px;
 }
-.slick-dots li button:before {
+#banner .slick-dots li button:before {
   font-size: 10px;
 }
-.slick-dots li button:before {
+#banner .slick-dots li button:before {
   opacity: 0.75;
   color: rgb(255, 255, 255);
 }
 
-.slick-dots {
+#banner .slick-dots {
   bottom: 25px;
   width: 90px;
   transform: translate(-50%);
@@ -40,4 +40,36 @@ body {
   background: rgba(129, 129, 129, 0.361);
   border-radius: 5px;
   margin-bottom: 5px;
+}
+
+#feedback .slick-slide {
+  width: 350px;
+}
+
+:where(.css-dev-only-do-not-override-1261szd).ant-menu-dark,
+:where(.css-dev-only-do-not-override-1261szd).ant-menu-dark > .ant-menu,
+:where(.css-dev-only-do-not-override-1261szd).ant-layout-sider {
+  background: #282828;
+}
+
+:where(.css-dev-only-do-not-override-1261szd).ant-menu-dark
+  .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-1261szd).ant-menu-dark
+  > .ant-menu
+  .ant-menu-item-selected {
+  background-color: #d96700;
+}
+
+.contact_banner,
+.about_banner {
+  background-image: url("./assets/daria-nepriakhina-xY55bL5mZAM-unsplash.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 100px 0;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+.contact_banner {
+  background-image: url("./assets/jess-bailey-X5gDoysLbBc-unsplash.jpg");
 }

@@ -6,6 +6,7 @@ import {
 } from "../redux/features/book/bookApi";
 import { IBook } from "../types/IBook";
 import { useGetAllCategoriesQuery } from "../redux/features/category/categoryApi";
+import { toast } from "react-toastify";
 
 interface UpdateBookModalProps {
   bookId: string;
@@ -15,7 +16,7 @@ interface UpdateBookModalProps {
 
 const UpdateBookModal = ({ bookId, isOpen, onClose }: UpdateBookModalProps) => {
   const { data, isLoading } = useGetBookByIdQuery(bookId);
-  const { data:category } = useGetAllCategoriesQuery();
+  const { data: category } = useGetAllCategoriesQuery();
   const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
   const [formData, setFormData] = useState<IBook>({
     name: "",
@@ -26,8 +27,6 @@ const UpdateBookModal = ({ bookId, isOpen, onClose }: UpdateBookModalProps) => {
     quantity: 0,
     discount: 0,
   });
-
-  console.log(category);
   const book = data?.data?.book;
 
   useEffect(() => {
@@ -52,7 +51,14 @@ const UpdateBookModal = ({ bookId, isOpen, onClose }: UpdateBookModalProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await updateBook({ bookId, bookData: formData });
+    try {
+      const res = await updateBook({ bookId, bookData: formData }).unwrap();
+      if (res.success) {
+        toast.success(res?.message || "Book upfated!");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
     onClose();
   };
 
@@ -73,60 +79,80 @@ const UpdateBookModal = ({ bookId, isOpen, onClose }: UpdateBookModalProps) => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="input"
-            />
-            <input
-              name="author"
-              value={formData.author}
-              onChange={handleChange}
-              placeholder="Author"
-              className="input"
-            />
-            <input
-              name="price"
-              type="number"
-              value={formData.price}
-              onChange={handleChange}
-              placeholder="Price"
-              className="input"
-            />
-            <input
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              placeholder="Category"
-              className="input"
-            />
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Description"
-              className="input"
-            />
-            <input
-              name="quantity"
-              type="number"
-              value={formData.quantity}
-              onChange={handleChange}
-              placeholder="Quantity"
-              className="input"
-            />
-            <input
-              name="discount"
-              type="number"
-              value={formData.discount}
-              onChange={handleChange}
-              placeholder="Discount"
-              className="input"
-            />
-
+          <form onSubmit={handleSubmit} className="">
+            <div>
+              Name: <br />
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Author: <br />
+              <input
+                name="author"
+                value={formData.author}
+                onChange={handleChange}
+                placeholder="Author"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Price:
+              <input
+                name="price"
+                type="number"
+                value={formData.price}
+                onChange={handleChange}
+                placeholder="Price"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Category:
+              <input
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                placeholder="Category"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Description:
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Description"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Quantity:
+              <input
+                name="quantity"
+                type="number"
+                value={formData.quantity}
+                onChange={handleChange}
+                placeholder="Quantity"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
+            <div>
+              Discount:
+              <input
+                name="discount"
+                type="number"
+                value={formData.discount}
+                onChange={handleChange}
+                placeholder="Discount"
+                className="input border border-[#eeeeee] p-2 mb-1 w-full rounded text-[#6f6f6f]"
+              />
+            </div>
             <div className="flex justify-end space-x-2">
               <button
                 type="button"

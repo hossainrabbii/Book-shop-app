@@ -1,20 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { logout, useCurrentToken } from "../redux/features/auth/authSlice";
-
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import { useCurrentToken } from "../redux/features/auth/authSlice";
+import logo from "../assets/logoo.png";
 const Navbar = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
   const token = useAppSelector(useCurrentToken);
-
   return (
-    <div className="flex justify-between items-center p-4 rounded-full sticky top-1 z-40 bg-opacity-60 backdrop-blur-sm border-[#2103] border container mx-auto">
+    <div className="flex justify-between items-center px-4 py-2 sticky top-0 z-40 bg-opacity-60 backdrop-blur-sm border-[#2103] border mx-auto bg-[#282828] text-white">
       <Link to="/">
-        <h1>GyanZon</h1>
+        <img src={logo} alt="logo" className="h-[50px]" />
+        <p className="text-sm">PageTurner</p>
       </Link>
       <div className="flex gap-4">
         <Link to="/">Home</Link>
@@ -28,9 +22,14 @@ const Navbar = () => {
         {/* <button>Login</button> */}
 
         {token ? (
-          <button onClick={handleLogout}>Logout</button>
+          <Link
+            to="/dashboard/profile"
+            className="bg-green-500 text-white rounded-full p-2"
+          >
+            Dashboard
+          </Link>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to="/login" className="bg-blue-500 rounded p-2">Login</Link>
         )}
       </div>
     </div>

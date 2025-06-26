@@ -18,7 +18,13 @@ import OrderItem from "./components/OrderItem";
 import Products from "./components/Products";
 import Categlries from "./components/Categlries";
 import Users from "./components/Users";
+import AddBookForm from "./components/AddBookForm";
+import ProtectedRouteAdmin from "./layout/ProtectedRouteAdmin";
+import { useEffect } from "react";
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   return (
     <>
       <Navbar />
@@ -36,8 +42,30 @@ function App() {
         >
           <Route path="profile" element={<Profile />} />
           <Route path="orders" element={<OrderItem />} />
-          <Route path="books" element={<Products />} />
-          <Route path="categories" element={<Categlries />} />
+          <Route
+            path="books"
+            element={
+              <ProtectedRouteAdmin>
+                <Products />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="add-book"
+            element={
+              <ProtectedRouteAdmin>
+                <AddBookForm />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="categories"
+            element={
+              <ProtectedRouteAdmin>
+                <Categlries />
+              </ProtectedRouteAdmin>
+            }
+          />
           <Route path="users" element={<Users />} />
         </Route>
 

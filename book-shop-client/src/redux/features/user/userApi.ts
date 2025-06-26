@@ -9,7 +9,13 @@ const userApi = baseApi.injectEndpoints({
         body: userData,
       }),
     }),
+    getUserByEmail: builder.mutation({
+      query: (emailId: string) => ({
+        url: `/user/${emailId}`,
+        method: "get",
+      }),
+    }),
   }),
 });
 
-export const {useCreateUserMutation} = userApi;
+export const { useCreateUserMutation, useGetUserByEmailMutation } = userApi;

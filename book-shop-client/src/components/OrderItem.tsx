@@ -53,7 +53,6 @@ const OrderItem = () => {
   // Determine which orders to show
   const displayOrders =
     user?.role === "admin" ? allOrders?.data : userOrders?.data;
-  console.log(displayOrders);
   return (
     <div>
       <title>My Orders</title>

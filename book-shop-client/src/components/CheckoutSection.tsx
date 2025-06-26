@@ -95,7 +95,6 @@ export default function CheckoutSection({
   const total = subtotal + onlineFee;
   const navigate = useNavigate();
   const user = useAppSelector(selectCurrentUser);
-  console.log(bookId);
   const userId = user?.id;
   const [shippingInfo, setShippingInfo] = useState({
     email: user?.email,
@@ -115,7 +114,6 @@ export default function CheckoutSection({
     shipped: false,
     delivered: false,
   });
-  console.log(shippingInfo);
   useEffect(() => {
     setShippingInfo((prev) => ({
       ...prev,

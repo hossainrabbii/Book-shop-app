@@ -9,7 +9,6 @@ const Order = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const { data, isLoading, error } = useGetBookByIdQuery(bookId);
   const book = data?.data?.book ?? {};
-  console.log(bookId);
   const { discount, name, quantity, price, author, imageUrl } = book;
   const [selectedQty, setSelectedQty] = useState(1);
 

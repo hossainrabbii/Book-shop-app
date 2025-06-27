@@ -27,7 +27,7 @@ export default function AddBookForm() {
     },
   });
 
-  const { data, isFetching, isLoading, error } =
+  const { data } =
     useGetAllCategoriesQuery(undefined);
 
   const [addBook] = useAddBookMutation();

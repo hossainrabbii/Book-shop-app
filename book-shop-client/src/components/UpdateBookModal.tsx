@@ -5,7 +5,6 @@ import {
   useUpdateBookMutation,
 } from "../redux/features/book/bookApi";
 import { IBook } from "../types/IBook";
-import { useGetAllCategoriesQuery } from "../redux/features/category/categoryApi";
 import { toast } from "react-toastify";
 
 interface UpdateBookModalProps {
@@ -16,12 +15,12 @@ interface UpdateBookModalProps {
 
 const UpdateBookModal = ({ bookId, isOpen, onClose }: UpdateBookModalProps) => {
   const { data, isLoading } = useGetBookByIdQuery(bookId);
-  const { data: category } = useGetAllCategoriesQuery();
   const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
   const [formData, setFormData] = useState<IBook>({
     name: "",
     author: "",
     price: 0,
+    imageUrl: "",
     category: "",
     description: "",
     quantity: 0,

@@ -1,5 +1,5 @@
 import {
-  logout,
+  
   selectCurrentUser,
   useCurrentToken,
 } from "../redux/features/auth/authSlice";
@@ -7,16 +7,8 @@ import { useAppSelector } from "../redux/hooks";
 import { useGetUserByEmailMutation } from "../redux/features/user/userApi";
 import { useEffect } from "react";
 import { Spinner } from "../utils/spinner";
-import { useDispatch } from "react-redux";
 
-interface IUser {
-  id: string;
-  name: string;
-  role: string;
-  email: string;
-  iat: Number;
-  exp: Number;
-}
+
 const Profile = () => {
   const token = useAppSelector(useCurrentToken);
   const user = useAppSelector(selectCurrentUser);

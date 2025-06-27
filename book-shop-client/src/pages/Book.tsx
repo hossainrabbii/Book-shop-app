@@ -22,7 +22,7 @@ const Book = () => {
       author,
       description,
       category,
-      inStock,
+      
       imageUrl,
     } = data?.data?.book;
     content = (
@@ -86,13 +86,19 @@ const Book = () => {
                       <span className="text-3xl text-[#F65D4E]">{price}</span>
                     )}
                   </p>
-                  <button disabled={inStock}>
-                    <Link
-                      to={`/order/${bookId}`}
-                      className="border rounded-full px-8 py-2 bg-[#F65D4E] hover:bg-[#F4402F] border-[#F65D4E] text-xl text-white inline-block mt-4"
-                    >
-                      Buy Now
-                    </Link>
+                  <button>
+                    {quantity > 0 ? (
+                      <Link
+                        to={`/order/${bookId}`}
+                        className="border rounded-full px-8 py-2 bg-[#F65D4E] hover:bg-[#F4402F] border-[#F65D4E] text-xl text-white inline-block mt-4"
+                      >
+                        Buy Now
+                      </Link>
+                    ) : (
+                      <span className="border border-red-400 bg-gray-100 text-red-500 inline-block mt-2 rounded-full px-3 py-1">
+                        Not available
+                      </span>
+                    )}
                   </button>
                 </div>
               </div>

@@ -3,23 +3,7 @@ import delivery from "../assets/deliverypng.png";
 import trust from "../assets/trust.png";
 
 const HomeIntro = () => {
-  const items = [
-    {
-      title: "Curated Collection",
-      desc: "Handpicked books across genres for readers of every kind.",
-      img: "../assets/collection.png",
-    },
-    {
-      title: "Fast & Safe Delivery",
-      desc: "Nationwide delivery with secure packaging and tracking.",
-      img: "/images/deliverybike.png", // replace later
-    },
-    {
-      title: "Trusted by Thousands",
-      desc: "Over 10,000 happy readers and growing every day.",
-      img: "/images/trust.png", // replace later
-    },
-  ];
+
   return (
     <section className="px-6 py-12 bg-gray-50 text-gray-800">
       {/* Welcome Section */}

@@ -20,7 +20,6 @@ const Products = () => {
   };
 
   const [deleteBook] = useDeleteBookMutation();
-  const handleOpen = () => setIsModalOpen(true);
   const handleClose = () => setIsModalOpen(false);
   let content;
   if (isLoading) {

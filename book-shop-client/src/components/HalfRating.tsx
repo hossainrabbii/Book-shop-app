@@ -1,4 +1,3 @@
-// HalfRating.tsx
 import { Dispatch, SetStateAction } from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -30,7 +29,10 @@ export default function HalfRating({ value, setValue }: Props) {
           value={value}
           precision={0.5}
           onChange={(event, newValue) => {
-            if (newValue !== null) setValue(newValue);
+            if (newValue !== null) {
+              setValue(newValue);
+              event;
+            }
           }}
         />
         <strong>{ratingLabels[value]}</strong>

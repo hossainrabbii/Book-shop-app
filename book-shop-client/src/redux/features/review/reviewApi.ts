@@ -1,4 +1,3 @@
-import { IReview } from "../../../types/IReview";
 import { baseApi } from "../../api/baseApi";
 
 const reviewApi = baseApi.injectEndpoints({

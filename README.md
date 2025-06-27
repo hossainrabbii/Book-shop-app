@@ -1,5 +1,5 @@
 # 📚 Book Shop Web App
-https://book-shop-client-mu.vercel.app
+Live link: https://book-shop-client-mu.vercel.app
 
 A modern and responsive **React + Vite + TypeScript** application that allows users to manage books, orders, reviews, and authentication.
 
